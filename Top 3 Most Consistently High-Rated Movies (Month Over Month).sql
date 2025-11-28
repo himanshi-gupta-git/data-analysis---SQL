@@ -8,6 +8,7 @@ WITH avg_monthly_rating AS(
 rating_difference AS(
     SELECT movie_id,
            month,
+           monthly_avg_rating
            LAG(monthly_avg_rating) OVER (PARTITION BY movie_id ORDER BY month) AS previous_month_avg,
            (monthly_avg_rating - LAG(monthly_avg_rating) OVER (PARTITION BY movie_id ORDER BY month)) AS monthly_diff
     FROM avg_monthly_rating
@@ -29,4 +30,5 @@ final AS (
 SELECT movie_name
 FROM final 
 WHERE ranked <= 3;
+
 
